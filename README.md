@@ -8,7 +8,4 @@
 
 # World Happiness Data
 
-### QBD Image
-![QBD](Images/QuickDBDiagram.png)
-
 
