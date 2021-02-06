@@ -43,6 +43,17 @@ def happiness():
     results = html_table
     return render_template("data.html", info = results)
 
+@app.route("/dailydosage", endpoint = "DDosageEnd")
+def happiness():
+    print("Server received request for POSTGRES connection...")
+    connection_string = f"{user_nm}:{user_pw}@localhost:{user_port}/world_db"
+    engine = create_engine(f'postgresql://{connection_string}')
+    connection = engine.connect()
+    df = pd.read_sql("SELECT * FROM antidepressant_consumption", connection)
+    connection.close()
+    html_table = df.to_html(index=False, header=True, border=1, justify = 'left',classes="bg-light table table-striped table-bordered")
+    results = html_table
+    return render_template("data.html", info = results)
 
 if __name__ == "__main__":
     app.run(debug = True)
