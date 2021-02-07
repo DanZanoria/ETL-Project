@@ -11,7 +11,7 @@
 ![FlowChar](images/FlowChart.png)
 
 ## ORM Diagram
-![QBD][(images/QuickBD.png)
+![QBD](images/QuickBD.png)
 
 
 
