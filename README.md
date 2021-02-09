@@ -11,7 +11,7 @@
 
 
 ## ETL
-![FlowChar](images/FlowChart.png)
+![FlowChart](images/FlowChart.PNG)
 
 ## ORM Diagram
 ![QBD](images/QuickDBD.png)
