@@ -19,5 +19,13 @@
 ## Example of ETL App Code
 ![QBD](images/ETLHappexample.png)
 
-
-
+## Key Files
+### Proposal Folder - Contains our project proposal
+### Resources - All source data files (CSVs)
+### Slides - Contains overview process flow slide on data flows, coding process
+### ETL_app.py - Our connected app to run queries online
+### ETL_happiness_alc_abuse... - Jupyter notebook file containing the extraction and transformation
+### QUERIES.sql - Example queries we ran using PgAdmin
+### SCHEMA.sql - Table schema for PgAdmin
+### create_db_sql - 
+### MAP_PLOTS.ipynb - 
