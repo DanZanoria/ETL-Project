@@ -61,6 +61,19 @@ def anti_dep():
     results = html_table
     return render_template("data.html", info = results, query = query)
 
+@app.route("/world_avg_happiness")
+def avg_happiness():
+    print("Server received request for POSTGRES connection for happiness query...")
+    connection_string = f"{user_nm}:{user_pw}@localhost:{user_port}/world_db"
+    engine = create_engine(f'postgresql://{connection_string}')
+    connection = engine.connect()
+    query = "SELECT AVG(happiness_score) From happiness"
+    df = pd.read_sql(query, connection)
+    connection.close()
+    html_table = df.to_html(index=False, header=True, border=1, justify = 'left',classes="bg-light table table-striped table-bordered")
+    results = html_table
+    return render_template("data.html", info = results, query = query)
+
 @app.route("/happiness_map")
 def happiness_map():
     return render_template("happiness_world.html")
