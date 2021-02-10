@@ -101,28 +101,25 @@ def custom_query():
         year = ""
     com_op= request.form['com_op']
     country= request.form['country']
-
-    
+        
     connection_string = f"{user_nm}:{user_pw}@localhost:{user_port}/world_db"
     engine = create_engine(f'postgresql://{connection_string}')
     
     connection = engine.connect()
        
     if (table != "") and  (year != "") and (com_op != "") and (country != ""):
-        query = f"SELECT * FROM {table} WHERE year {com_op} {year} AND country = {country}"
+        query = f"SELECT * FROM {table} WHERE year {com_op} {year} AND country = '{country}'"
     elif (table != "") and  (year != "") and (country != ""):
-        query = f"SELECT * FROM {table} WHERE year = {year} AND country = {country}"
+        query = f"SELECT * FROM {table} WHERE year = {year} AND country = '{country}'"
     elif (table != "") and  (year != "") and (com_op != ""):
         query = f"SELECT * FROM {table} WHERE year {com_op} {year}"
     elif (table != "") and (country != ""):
-        query = f"SELECT * FROM {table} WHERE country = {country}"
+        query = f"SELECT * FROM {table} WHERE country = '{country}'"
     elif (table != "") and  (year != ""):
         query = f"SELECT * FROM {table} WHERE year = {year}"
     else:
         query = f"SELECT * FROM {table}"
         
-
-    # query = f"SELECT * FROM {table}"
     df = pd.read_sql(query, connection)
     connection.close()
     html_table = df.to_html(index=False, header=True, border=1, justify = 'left',classes="bg-light table table-striped table-bordered")
