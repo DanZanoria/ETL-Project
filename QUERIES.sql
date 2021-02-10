@@ -1,6 +1,6 @@
-DELETE FROM happiness;
-DELETE FROM alcohol_consumption;
-DELETE FROM antidepressant_consumption;
+--DELETE FROM happiness;
+--DELETE FROM alcohol_consumption;
+--DELETE FROM antidepressant_consumption;
 
 SELECT * FROM antidepressant_consumption;
 
@@ -28,9 +28,9 @@ ORDER BY 1;
 
 SELECT  t1.country, t1.happiness_rank, t1.happiness_score, t2.gender, t2.per_capita_consumption, t3.daily_dosage_per_1k
 FROM happiness AS t1
-INNER JOIN alcohol_consumption AS t2 ON t1.country = t2.country AND t2.year = 2017
+INNER JOIN alcohol_consumption AS t2 ON t1.country = t2.country AND t2.year = 2018
 INNER JOIN antidepressant_consumption AS t3 ON t1.country = t3.country
-WHERE t1.year = 2017
+WHERE t1.year = 2016
 ORDER BY 2;
 
 SELECT country, happiness_rank, happiness_score, gdp_per_capita, 
@@ -52,7 +52,7 @@ INNER JOIN (SELECT country, per_capita_consumption,
 ROW_NUMBER () OVER (ORDER BY per_capita_consumption DESC) AS ranking 
 FROM (SELECT country, AVG(per_capita_consumption) AS per_capita_consumption 
 FROM alcohol_consumption GROUP BY country ORDER BY 2 DESC) AS T3) AS T2
-ON T1.country = T2.country ORDER BY 2
+ON T1.country = T2.country ORDER BY 2;
 
 SELECT country,daily_dosage_per_1k, year, notes 
 FROM antidepressant_consumption ORDER BY daily_dosage_per_1k DESC

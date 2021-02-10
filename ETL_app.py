@@ -2,7 +2,7 @@ import pandas as pd
 from config import user_nm, user_pw, user_port
 
 from sqlalchemy import create_engine
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect,request
 
 #################################################
 # Flask Setup
@@ -63,11 +63,11 @@ def anti_dep():
 
 @app.route("/world_avg_happiness")
 def avg_happiness():
-    print("Server received request for POSTGRES connection for happiness query...")
+    print("Server received request for POSTGRES connection for average happiness query...")
     connection_string = f"{user_nm}:{user_pw}@localhost:{user_port}/world_db"
     engine = create_engine(f'postgresql://{connection_string}')
     connection = engine.connect()
-    query = "SELECT AVG(happiness_score) From happiness"
+    query = "SELECT AVG(happiness_score) as average_happiness From happiness"
     df = pd.read_sql(query, connection)
     connection.close()
     html_table = df.to_html(index=False, header=True, border=1, justify = 'left',classes="bg-light table table-striped table-bordered")
@@ -86,9 +86,48 @@ def alcohol_map():
 def anti_dep_map():
     return render_template("anti_dep_world.html")
 
-@app.route("/test")
-def test():
-    return render_template("test.html")
+@app.route("/custom")
+def custom():
+    return render_template("custom.html")
+
+@app.route("/custom_query", methods=['GET', 'POST'])
+def custom_query():
+    print("Server received request for POSTGRES connection for custom query...")
+        
+    table = request.form['table']
+    if request.form['year'] != "":
+        year= int(request.form['year'])
+    else:
+        year = ""
+    com_op= request.form['com_op']
+    country= request.form['country']
+
+    
+    connection_string = f"{user_nm}:{user_pw}@localhost:{user_port}/world_db"
+    engine = create_engine(f'postgresql://{connection_string}')
+    
+    connection = engine.connect()
+       
+    if (table != "") and  (year != "") and (com_op != "") and (country != ""):
+        query = f"SELECT * FROM {table} WHERE year {com_op} {year} AND country = {country}"
+    elif (table != "") and  (year != "") and (country != ""):
+        query = f"SELECT * FROM {table} WHERE year = {year} AND country = {country}"
+    elif (table != "") and  (year != "") and (com_op != ""):
+        query = f"SELECT * FROM {table} WHERE year {com_op} {year}"
+    elif (table != "") and (country != ""):
+        query = f"SELECT * FROM {table} WHERE country = {country}"
+    elif (table != "") and  (year != ""):
+        query = f"SELECT * FROM {table} WHERE year = {year}"
+    else:
+        query = f"SELECT * FROM {table}"
+        
+
+    # query = f"SELECT * FROM {table}"
+    df = pd.read_sql(query, connection)
+    connection.close()
+    html_table = df.to_html(index=False, header=True, border=1, justify = 'left',classes="bg-light table table-striped table-bordered")
+    results = html_table
+    return render_template("data.html", info = results, query = query)
 
 if __name__ == "__main__":
     app.run(debug = True)

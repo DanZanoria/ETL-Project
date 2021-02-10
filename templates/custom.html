@@ -16,13 +16,44 @@
       <h1>Drugs, Alcohol and Happiness!!!!</h1>
       <h2>An Analysis...</h2>
       <a href = "/" class="btn btn-primary" role="button">Home</a> <hr>
-      <strong>Query</strong>
-      <p>{{ query }}</p><hr>
-      <a href = "/custom" class="btn btn-primary" role="button">Custom query page</a> 
     </div>
-    <div class="table table-responsive ">
-       {{info|safe}}
-      </div>
+        <div class="row">
+            <div class="col-md-12 bg-light p-5 rounded-3">
+                <form method="POST" action="/custom_query">
+                <fieldset>
+                    <legend>Buile your own query (BYOQ):</legend>
+                    <ul>
+                        <li>Table (happiness/ alcohol_consumption/ antidepressant_consumption): 
+                            <!-- <input name='table' id="table" required> -->
+                            <select name="table" id="table">
+                                <option value="happiness">happiness</option>
+                                <option value="alcohol_consumption">alcohol_consumption</option>
+                                <option value="antidepressant_consumption">antidepressant_consumption</option>
+                              </select>
+                        </li>
+                        <li>Year: 
+                            <input name='year' id="year">
+                            <li>
+                                Year comaprison operator: (<,>,=, <=, <>, >=)
+                                <!-- <input name='com_op' id="com_op"> -->
+                                <select name="com_op" id="com_op">
+                                    <option value=""></option>
+                                    <option value="<"><</option>
+                                    <option value=">">></option>
+                                    <option value="=">=</option>
+                                    <option value="=">>=</option>
+                                    <option value="="><=</option>
+                                    <option value="="><></option>
+                                  </select>
+                            </li> 
+                        </li>
+                        <li>Country: 
+                            <input name='country' id="country">
+                        </li>
+                    </ul><input type='submit' class="btn btn-primary" value='Submit query'>
+                </fieldset>
+                </form> 
+        </div>
 
       <footer class="mastfoot mt-auto text-center text-white">
         <div class="inner">
